@@ -29,12 +29,22 @@ class AliSms implements \dux\send\SendInterface {
             throw new \Exception('AliSms the template does not exist');
         }
         $url = $this->url($receive, $this->config['apiid'], $this->config['apikey'], $this->config['sign'], $params['tpl'], $params);
-        $response = (new \GuzzleHttp\Client())->request('GET', $url);
-        $reason = $response->getStatusCode();
-        if ($reason <> 200) {
-            throw new \Exception("AliSms Send failed!");
+        try {
+            $response = (new \GuzzleHttp\Client())->request('GET', $url);
+            $reason = $response->getStatusCode();
+            if ($reason <> 200) {
+                throw new \Exception("AliSms Send failed!");
+            }
+        } catch (\GuzzleHttp\Exception\RequestException $e) {
+            $data = $e->getResponse()->getBody()->getContents();
+            $data = json_decode($data, true);
+            if (empty($data)) {
+                throw new \Exception("AliSms Send failed!");
+            }
+            throw new \Exception("AliSms Error: " . $data['Message']);
         }
         return true;
+
     }
 
     private function url($phone, $AccessKeyId, $accessKeySecret, $SignName, $TemplateCode, $TemplateParam, $domain = 'dysmsapi.aliyuncs.com') {
@@ -48,8 +58,7 @@ class AliSms implements \dux\send\SendInterface {
         $apiParams["SignatureMethod"] = "HMAC-SHA1"; //固定参数
         $apiParams["SignatureVersion"] = "1.0";  //固定参数
         $apiParams["SignatureNonce"] = uniqid(); //用于请求的防重放攻击，每次请求唯一
-        date_default_timezone_set("GMT"); //设置时区
-        $apiParams["Timestamp"] = date('Y-m-d\TH:i:s\Z'); //格式为：yyyy-MM-dd’T’HH:mm:ss’Z’；时区为：GMT
+        $apiParams["Timestamp"] = gmdate('Y-m-d\TH:i:s\Z'); //格式为：yyyy-MM-dd’T’HH:mm:ss’Z’；时区为：GMT
         $apiParams["Action"] = 'SendSms'; //api命名 固定值
         $apiParams["Version"] = '2017-05-25'; //api版本 固定值
         $apiParams["Signature"] = $this->computeSignature($apiParams, $accessKeySecret);  //最终生成的签名结果值

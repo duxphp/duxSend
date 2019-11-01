@@ -13,7 +13,6 @@ class Send {
 
     /**
      * 实例化类
-     * Send constructor.
      * @param string $driver
      * @param array $config
      * @throws \Exception
