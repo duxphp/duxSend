@@ -44,7 +44,7 @@ QQ群：131331864
 
 # bug反馈
 
-[issues反馈](https://github.com/duxphp/duxfiles/issues)
+[issues反馈](https://github.com/duxphp/duxFiles/issues)
     
 # 版权说明
 
