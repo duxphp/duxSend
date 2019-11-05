@@ -65,15 +65,15 @@ QQ群：131331864
 
 实例化操作类
 
-    ```
+   ```
     $driver = \dux\send\Email::class;  //驱动类名
     $config = []; //驱动配置
     $send = new \dux\send\Send($driver, $config);
-    ```
+   ```
    
 配置信息
 
-    ```
+   ```
     // 阿里邮件
     $driver = \dux\send\AliMail::class;
     $config = [
@@ -81,9 +81,9 @@ QQ群：131331864
         'apy_key' => '',  //接口秘钥
         'mail' => '',     //发件邮箱
     ];
-    ```
+   ```
 
-    ```
+   ```
     // 阿里云短信
     $driver = \dux\send\AliSms::class;
     $config = [
@@ -91,9 +91,9 @@ QQ群：131331864
         'apy_key' => '',  //Access Key Secret
         'sign' => '',     //短信签名
     ];
-    ```
+   ```
 
-    ```
+   ```
     // SMTP邮件
     $driver = \dux\send\Email::class;
     $config = [
@@ -103,18 +103,18 @@ QQ群：131331864
         'port' => '',       //SMTP端口
         'mail' => '',       //发件邮箱
     ];
-    ```
+   ```
 
-    ```
+   ```
     // 极光推送
     $driver = \dux\send\Jpush::class;
     $config = [
         'app_key' => '',          //接口密钥
         'master_kecret' => '',
     ];
-    ```
+   ```
     
-    ```
+   ```
     // 小米推送
     $driver = \dux\send\Xiaomi::class;
     $config = [
@@ -122,30 +122,30 @@ QQ群：131331864
         'android_key' => '',     //安卓密钥
         'android_name' => '',    //安卓包名
     ];
-    ```
+   ```
 
-    ```
+   ```
     // 云片短信
     $driver = \dux\send\Yunpian::class;
     $config = [
         'api_key' => '',         //接口密钥
     ];
-    ```
+   ```
    
 检测接收账号
     
-    ```
+   ```
     /**
      * @param $receive  //接收账号、号码或推送别名
      * @return bool
      * @throws \Exception
      */
     $send->check($receive);
-    ```
+   ```
     
 发送消息
     
-    ```
+   ```
     /**
      * @param $receive          //接收账号、号码或推送别名
      * @param string $title     //发信标题，邮件有效，短信、推送等无效
@@ -155,7 +155,7 @@ QQ群：131331864
      * @throws \Exception
      */
     $send->send($receive, string $title, string $content, array $params = []);
-    ```
+   ```
     
 异常捕获
 
@@ -165,4 +165,4 @@ QQ群：131331864
     } catch (\Exception $e) {
         echo $e->getMessage();
     }
-    ```
+   ```
