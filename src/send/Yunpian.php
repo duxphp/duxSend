@@ -3,7 +3,7 @@
 namespace dux\send;
 
 /**
- * 极光APP推送
+ * 云片短信
  */
 class Yunpian implements \dux\send\SendInterface {
 

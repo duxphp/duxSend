@@ -31,7 +31,7 @@ class Send {
     /**
      * 检测接收号码
      * @param $receive
-     * @return mixed
+     * @return bool
      * @throws \Exception
      */
     public function check($receive) {
@@ -48,6 +48,9 @@ class Send {
      * @throws \Exception
      */
     public function send($receive, string $title, string $content, array $params = []) {
+        if(empty($receive)) {
+            throw new \Exception($this->driver . ' accept the account does not exist', 500);
+        }
         return $this->getObj()->send($receive, $title, $content, $params);
     }
 
