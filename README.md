@@ -29,9 +29,8 @@ DuxSend 是一款支持多种平台接口的短信、邮件等推送类
 - 阿里云邮件
 - 阿里云短信
 - 小米推送
+- 极光推送
 - 云片短信
-
-  更多加入中...
 
 # 环境支持
 
@@ -62,3 +61,108 @@ QQ群：131331864
    composer require duxphp/duxsend
    ```
    
+# 使用方法
+
+实例化操作类
+
+    ```
+    $driver = \dux\send\Email::class;  //驱动类名
+    $config = []; //驱动配置
+    $send = new \dux\send\Send($driver, $config);
+    ```
+   
+配置信息
+
+    ```
+    // 阿里邮件
+    $driver = \dux\send\AliMail::class;
+    $config = [
+        'api_id' => '',   //接口账号
+        'apy_key' => '',  //接口秘钥
+        'mail' => '',     //发件邮箱
+    ];
+    ```
+
+    ```
+    // 阿里云短信
+    $driver = \dux\send\AliSms::class;
+    $config = [
+        'api_id' => '',   //AccessKey ID
+        'apy_key' => '',  //Access Key Secret
+        'sign' => '',     //短信签名
+    ];
+    ```
+
+    ```
+    // SMTP邮件
+    $driver = \dux\send\Email::class;
+    $config = [
+        'host' => '',       //SMTP地址
+        'username' => '',   //邮箱账号
+        'password' => '',   //邮箱密码
+        'port' => '',       //SMTP端口
+        'mail' => '',       //发件邮箱
+    ];
+    ```
+
+    ```
+    // 极光推送
+    $driver = \dux\send\Jpush::class;
+    $config = [
+        'app_key' => '',          //接口密钥
+        'master_kecret' => '',
+    ];
+    ```
+    
+    ```
+    // 小米推送
+    $driver = \dux\send\Xiaomi::class;
+    $config = [
+        'ios_key' => '',         //IOS密钥
+        'android_key' => '',     //安卓密钥
+        'android_name' => '',    //安卓包名
+    ];
+    ```
+
+    ```
+    // 云片短信
+    $driver = \dux\send\Yunpian::class;
+    $config = [
+        'api_key' => '',         //接口密钥
+    ];
+    ```
+   
+检测接收账号
+    
+    ```
+    /**
+     * @param $receive  //接收账号、号码或推送别名
+     * @return bool
+     * @throws \Exception
+     */
+    $send->check($receive);
+    ```
+    
+发送消息
+    
+    ```
+    /**
+     * @param $receive          //接收账号、号码或推送别名
+     * @param string $title     //发信标题，邮件有效，短信、推送等无效
+     * @param string $content   //发信内容，邮件可为 Html,其他为字符串
+     * @param array $params     //附件参数，模板短信传递 "tpl" 键名为模板 ID，其他参数为模板值
+     * @return mixed
+     * @throws \Exception
+     */
+    $send->send($receive, string $title, string $content, array $params = []);
+    ```
+    
+异常捕获
+
+   ```
+    try {
+        ...
+    } catch (\Exception $e) {
+        echo $e->getMessage();
+    }
+    ```
