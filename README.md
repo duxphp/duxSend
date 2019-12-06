@@ -68,7 +68,7 @@ QQ群：131331864
    ```
     $driver = \dux\send\Email::class;  //驱动类名
     $config = []; //驱动配置
-    $send = new \dux\send\Send($driver, $config);
+    $send = new \dux\Send($driver, $config);
    ```
    
 配置信息

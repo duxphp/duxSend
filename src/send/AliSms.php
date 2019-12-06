@@ -9,7 +9,7 @@ class AliSms implements \dux\send\SendInterface {
 
     protected $config = [
         'api_id' => '',
-        'apy_key' => '',
+        'api_key' => '',
         'sign' => '',
     ];
 
@@ -28,7 +28,7 @@ class AliSms implements \dux\send\SendInterface {
         if (!$params['tpl']) {
             throw new \Exception('AliSms the template does not exist');
         }
-        $url = $this->url($receive, $this->config['apiid'], $this->config['apikey'], $this->config['sign'], $params['tpl'], $params);
+        $url = $this->url($receive, $this->config['api_id'], $this->config['api_key'], $this->config['sign'], $params['tpl'], $params);
         try {
             $response = (new \GuzzleHttp\Client())->request('GET', $url);
             $reason = $response->getStatusCode();

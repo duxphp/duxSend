@@ -9,7 +9,7 @@ class AliMail implements \dux\send\SendInterface {
 
     protected $config = [
         'api_id' => '',
-        'apy_key' => '',
+        'api_key' => '',
         'mail' => '',
     ];
 
