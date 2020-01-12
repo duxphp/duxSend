@@ -28,7 +28,7 @@ class AliSms implements \dux\send\SendInterface {
         if (!$params['tpl']) {
             throw new \Exception('AliSms the template does not exist');
         }
-        $url = $this->url($receive, $this->config['api_id'], $this->config['api_key'], $this->config['sign'], $params['tpl'], $params);
+        $url = $this->url($receive, $this->config['api_id'], $this->config['api_key'], $this->config['sign'], $params['tpl'], $params['data']);
         try {
             $response = (new \GuzzleHttp\Client())->request('GET', $url);
             $reason = $response->getStatusCode();
@@ -44,7 +44,6 @@ class AliSms implements \dux\send\SendInterface {
             throw new \Exception("AliSms Error: " . $data['Message']);
         }
         return true;
-
     }
 
     private function url($phone, $AccessKeyId, $accessKeySecret, $SignName, $TemplateCode, $TemplateParam, $domain = 'dysmsapi.aliyuncs.com') {

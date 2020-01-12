@@ -5,13 +5,11 @@ namespace dux\send;
 /**
  * 微信模板消息
  */
-class WechatSend implements \dux\send\SendInterface {
+class Wechat implements \dux\send\SendInterface {
 
     protected $config = [
         'appid' => '',
         'secret' => '',
-        'token' => '',
-        'aeskey' => '',
     ];
 
     public function __construct($config) {
@@ -31,15 +29,21 @@ class WechatSend implements \dux\send\SendInterface {
             'touser' => $receive,
             'template_id' => $params['tpl'],
             'url' => $params['url'],
-            'data' => $params['param'],
+            'data' => $params['data'],
         ];
-        if ($params['minapp']) {
+        if ($params['url_other']) {
+            $other = explode('//', $params['url_other'], 2);
+            $other = end($other);
+            $otherArray = explode('@', $other, 2);
             $data['miniprogram'] = [
-                'appid' => $params['minapp']['appid'],
-                'pagepath' => $params['minapp']['path'],
+                'appid' => $otherArray[0],
+                'pagepath' => $otherArray[1],
             ];
         }
-        $wechat->template_message->send($data);
+        $status = $wechat->template_message->send($data);
+        if ($status['errcode']) {
+            throw new \Exception('WechatSend:' . $status['errmsg']);
+        }
         return true;
     }
 
@@ -47,13 +51,11 @@ class WechatSend implements \dux\send\SendInterface {
         $options = [
             'app_id' => $this->config['appid'],
             'secret' => $this->config['secret'],
-            'token' => $this->config['token'],
-            'aes_key' => $this->config['aeskey'],
             'response_type' => 'array',
             'log' => [
                 'level' => 'error',
                 'permission' => 0775,
-                'file' => DATA_PATH . 'log/wechat/send_' . date('y-m-d') . '.log',
+                'file' => './data/log/wechat/send_' . date('y-m-d') . '.log',
             ],
             'http' => [
                 'timeout' => 20,
