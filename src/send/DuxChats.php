@@ -51,7 +51,8 @@ class DuxChats implements \dux\send\SendInterface {
             }
 
         } catch (\GuzzleHttp\Exception\RequestException $e) {
-            throw new \Exception($e->getResponse()->getBody()->getContents() ?? $e->getMessage());
+            $response = $e->getResponse();
+            throw new \Exception(is_null($response) ? $e->getMessage() : $response->getBody()->getContents());
         }
 
         return true;
